@@ -1,0 +1,47 @@
+<html>
+  <head>    
+    <link href="./styles/todo.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+  </head>
+  <body>
+
+    <div flex="row" center grow>
+        <div class="container" flex="column" center>
+            <h1 flex="row" center>Todo Native</h1>
+            <div class="control" flex="row">
+                <img src="imgs/baseline-keyboard_arrow_down-24px.svg" />
+                <input type="text" placeholder="what needs to be done?" id="item" grow />
+            </div>
+            <ul>
+                <fira-for>
+                    <li flex="row" class="complete-${completed}">
+                        <div class="check" onclick="complete('${id}')">
+                            <img src="imgs/baseline-check-24px.svg" />
+                        </div>
+                        <span grow>${task}</span>
+                        <img class="close" src="imgs/baseline-close-24px.svg" onclick="closeItem('${id}')" />
+                    </li>
+                </fira-for>
+            </ul>           
+            <div class="manage" flex="column">
+                <div class="bar" flex="row">
+                    <div flex="column" center size="1">${count}</div>
+                    <div flex="row" center size="1">
+                        <a class="active" id="allBtn" onclick="scope(1)">All</a>
+                        <a id="activeBtn" onclick="scope(2)">Active</a>
+                        <a id="completeBtn" onclick="scope(3)">Completed</a>
+                    </div>
+                    <div flex="row" size="1" end>
+                        <a id="clear" flex="column" center onclick="clearCompleted()">Clear Completed</a>
+                    </div>
+                </div>
+                <!-- <div class="bar page1"></div>
+                <div class="bar page2"></div> -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="./scripts/fira-elements.js"></script>
+    <script src="./scripts/todo.js"></script>
+  </body>
+</html>

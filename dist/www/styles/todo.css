@@ -1,0 +1,163 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e6ebf1;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-weight: 100;
+}
+
+h1 {
+    font-size: 60px;
+    min-height: 75px;
+}
+
+input[type="text"] {
+    padding: 20px 10px 20px 0px;
+    font-family: 'Roboto', sans-serif;
+    outline: none;    
+    border: none;    
+    color: #4e4e4e;
+    font-weight: 200;
+    font-size: 24px;
+}
+
+input[type="text"]::placeholder {
+    color: #ababab;
+    font-style: italic;
+    font-weight: 100;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    box-shadow: 0px 12px 42px -2px rgba(51, 51, 51, 0.25);
+    background-color: #fff;
+    padding: 0px;
+    border-radius: 3px;
+    overflow-y: scroll;
+}
+
+ul li {
+    background-color: #fff;
+    padding: 20px 0;
+    font-size: 22px;
+    font-weight: 100;
+    border-bottom: solid 1px #e6ebf2;
+    border-top: solid 1px #fff;
+}
+
+.control {
+    box-shadow: 0px 12px 42px -2px rgba(51, 51, 51, 0.25);
+    background-color: #fff;
+    padding: 2px;
+    border-radius: 3px;
+    border-bottom: solid 3px rgba(51, 51, 51, 0.35);
+    min-height: 75px;
+}
+
+.control img {
+    padding: 0px 10px;
+    width: 35px;
+    opacity: 0.2;
+}
+
+.container {
+    min-width: 600px;
+}
+
+.check {
+    border: solid 2px #e6ebf2;
+    border-radius: 50%;
+    margin: 0 18px 0 12px;
+    cursor: pointer;
+}
+
+.check img {
+    opacity: 0;
+}
+
+.check:hover img {
+    opacity: 1;
+}
+
+li.complete-true .check img {
+    opacity: 1;
+}
+
+li.complete-true span {
+    text-decoration: line-through;
+    opacity: .4;
+}
+
+li .close {
+    opacity: 0;
+    margin: 0 18px 0 12px;
+    cursor: pointer;
+}
+
+li:hover .close {
+    opacity: .6;
+}
+
+.manage {
+    box-shadow: 0px 18px 42px -2px rgba(51, 51, 51, 0.25);
+    border-radius: 0 0 3px 3px;
+    position: relative;
+    min-height: 41px;
+}
+
+.manage .bar {
+    display: none;
+    background-color: #fff;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 300;
+    color: #8d9094;  
+    border-radius: 2px;      
+}
+
+.manage .bar.page1 {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    bottom: -7px;
+    left: .5%;
+    width: 99%;
+    height: 5px;
+    border-radius: 0 0 2px 2px;
+    border-bottom: solid 1px #d1d4d8;
+    z-index: 1;
+}
+
+.manage .bar.page2 {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    bottom: -12px;
+    left: 1%;
+    width: 98%;
+    height: 5px;
+    border-radius: 0 0 2px 2px;
+}
+
+.manage .bar a {
+    padding: 2px 10px;
+    margin: 0 5px;
+    border: solid 1px transparent;
+    cursor: pointer;
+}
+
+.manage .bar a.active {
+    border: solid 1px #c6c9cc;
+    border-radius: 3px;
+}
+
+.manage .bar.active {
+    display: flex;
+}
