@@ -4,6 +4,7 @@ var express = require("express");
 var JsonDB = require("node-json-db");
 var path = require("path");
 var bodyParser = require("body-parser");
+var cors = require("cors");
 var graphql_server_express_1 = require("graphql-server-express");
 var graphql_tools_1 = require("graphql-tools");
 var types_1 = require("./types");
@@ -17,6 +18,7 @@ var schema = graphql_tools_1.makeExecutableSchema({
     resolvers: resolvers
 });
 var homePath = '/graphiql';
+app.use(cors());
 app.use('/graphql', bodyParser.json(), graphql_server_express_1.graphqlExpress({ schema: schema }));
 app.use(homePath, graphql_server_express_1.graphiqlExpress({ endpointURL: '/graphql' }));
 app.use(express.static(__dirname + '/www'));
