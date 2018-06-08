@@ -71,17 +71,28 @@ function getResolvers(db) {
                 });
             }); },
             updateTodo: function (root, args, context, info) { return __awaiter(_this, void 0, void 0, function () {
-                var res;
+                var todo, res;
                 return __generator(this, function (_a) {
-                    res = db.push("/todo/" + args.id, args, false);
+                    todo = db.getData('/todo/' + args.id);
+                    todo.completed = args.completed;
+                    res = db.push("/todo/" + args.id, todo, false);
                     return [2 /*return*/, db.getData('/todo/' + args.id)];
                 });
             }); },
             deleteTodo: function (root, args, context, info) { return __awaiter(_this, void 0, void 0, function () {
                 var res;
                 return __generator(this, function (_a) {
-                    res = db.delete("/todo/" + args.id, args, false);
+                    res = db.delete("/todo/" + args.id);
                     return [2 /*return*/, { id: args.id }];
+                });
+            }); },
+            deleteTodos: function (root, args, context, info) { return __awaiter(_this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    args.id.forEach(function (v) {
+                        if (v)
+                            db.delete("/todo/" + v);
+                    });
+                    return [2 /*return*/, true];
                 });
             }); }
         },

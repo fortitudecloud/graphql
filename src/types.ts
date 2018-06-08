@@ -10,8 +10,9 @@ export const typeDefs = [`
     }    
     type Mutation {
         createTodo(task: String): Todo
-        updateTodo(completed: Boolean): Todo
-        deleteTodo(id: String): Todo       
+        updateTodo(id: String, completed: Boolean): Todo
+        deleteTodo(id: String): Todo 
+        deleteTodos(id: [String]): Boolean
     }
     schema {
         query: Query
