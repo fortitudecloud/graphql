@@ -25,11 +25,17 @@ const homePath = '/graphiql'
 
 app.use(cors());
 
+
+app.use('/www', express.static(__dirname + '/www'));
+
+
 app.use('/graphql', bodyParser.json(), graphqlExpress({schema}))
 app.use(homePath, graphiqlExpress({ endpointURL: '/graphql' }))
 
-app.use(express.static(__dirname + '/www'));
-    
+app.use('/', (req, res) => {
+    res.redirect('/www/todo.html')
+})
+
 const PORT = 3001
 
 app.listen(PORT, () => {

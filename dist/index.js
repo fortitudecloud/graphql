@@ -19,9 +19,12 @@ var schema = graphql_tools_1.makeExecutableSchema({
 });
 var homePath = '/graphiql';
 app.use(cors());
+app.use('/www', express.static(__dirname + '/www'));
 app.use('/graphql', bodyParser.json(), graphql_server_express_1.graphqlExpress({ schema: schema }));
 app.use(homePath, graphql_server_express_1.graphiqlExpress({ endpointURL: '/graphql' }));
-app.use(express.static(__dirname + '/www'));
+app.use('/', function (req, res) {
+    res.redirect('/www/todo.html');
+});
 var PORT = 3001;
 app.listen(PORT, function () {
     console.log("Visit http://localhost:" + PORT);

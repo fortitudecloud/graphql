@@ -5,6 +5,7 @@ var tasks = [];
 //     COMPLETE: 3
 // }
 var state = 1;
+var httpState = 0;
 var firaFor;
 
 window.onload = function() {
@@ -33,24 +34,44 @@ window.onload = function() {
         managed.classList.add('active');
         
         buttons(state);
+    });    
+    
+    //list.setContent(tasks);
+    var query = {"query":"query {\n  todos {\n    id\n    task\n    completed\n  }\n}","variables":null};
+    var http = document.querySelector('fira-http');
+    http.body = query;
+    window.setTimeout(() => {
+        http.fetch();
+    })    
+
+    http.addEventListener('fetched', ($e) => {
+        var results = 
+            JSON.parse($e.detail[0].responseText)
+            .data;
+        if(results.todos) results.todos.forEach(v => tasks.push(v));
+        if(results.createTodo) tasks.push(results.createTodo);
+        if(results.updateTodo) 
+            tasks.forEach((v) => {
+                if(v.id === results.updateTodo.id) v.completed = true;
+            });
+        
     });
 
     document.getElementById("item")
         .addEventListener("keyup", function(event) {
             event.preventDefault();
             if (event.keyCode === 13) {  
-                var id = guid();              
-                var item = {
-                    id: id,
-                    task: event.currentTarget.value,
-                    completed: false
-                };
-                tasks.push(item);
+                // var id = guid();              
+                // var item = {
+                //     id: id,
+                //     task: event.currentTarget.value,
+                //     completed: false
+                // };
+                // tasks.push(item);
+                addItem(event.currentTarget.value);
                 event.currentTarget.value = '';
             }
         });
-    
-    //list.setContent(tasks);
 
     function guid() {
         function s4() {
@@ -62,16 +83,56 @@ window.onload = function() {
     }
 }
 
+function addItem(task) {
+    var query = {"query": `mutation {
+                                createTodo(task: "${task}") {
+                                    id,
+                                    task,
+                                    completed
+                                }
+                            }`};
+    var http = document.querySelector('fira-http');
+    http.body = query;
+    window.setTimeout(() => {
+        http.fetch();
+    }) 
+}
+
 function complete(id) {
-    tasks.forEach((v) => {
-        if(v.id === id) v.completed = true;
-    });
+    var query = {"query": `mutation {
+        updateTodo(id:"${id}", completed:true) {
+          id,
+          completed,
+          task
+        }
+    }`};
+    var http = document.querySelector('fira-http');
+    http.body = query;
+    window.setTimeout(() => {
+        http.fetch();
+    }) 
+
+    // tasks.forEach((v) => {
+    //     if(v.id === id) v.completed = true;
+    // });
     //list.render();    
 }
 
 function closeItem(id) {    
     //list.removeContentItem(v => v.id === id);
     //tasks = tasks.filter(v => v.id !== id);
+
+    var query = {"query": `mutation {
+                                deleteTodo(id:"${id}") {
+                                    task
+                                }
+                            }`};
+    var http = document.querySelector('fira-http');
+    http.body = query;    
+    window.setTimeout(() => {
+        http.fetch();
+    }) 
+
     var idx = tasks.map(t => t.id).indexOf(id);
     if(idx > -1) tasks.splice(idx, 1);
 }
@@ -106,10 +167,33 @@ function buttons(s) {
 function clearCompleted() {
     //tasks = tasks.filter(t => !t.completed);
     //list.setContent(tasks);
+    // var found = tasks.map(t => t.completed).indexOf(true);
+    // if(found > -1) {
+    //     closeItem(tasks[found].id);
+    //     clearCompleted();
+    // }
+    var arr = [];
+    tasks.forEach(v => {
+        if(v.completed) arr.push(v.id)
+    })
+
+    var query = {"query": `mutation {
+                                deleteTodos(id: ["${arr.join('","')}"])                                                                    
+                            }`};
+    var http = document.querySelector('fira-http');
+    http.body = query;    
+    window.setTimeout(() => {
+        http.fetch();
+    }) 
+
+    recursiveClear();
+}
+
+function recursiveClear() {
     var found = tasks.map(t => t.completed).indexOf(true);
     if(found > -1) {
-        closeItem(tasks[found].id);
-        clearCompleted();
+        tasks.splice(found, 1);
+        recursiveClear();
     }
 }
 
