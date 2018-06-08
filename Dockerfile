@@ -2,11 +2,11 @@ FROM amble/nodemonjs7-pi
 
 COPY ./ /
 
-RUN npm i typescript -g
+#RUN npm i typescript -g
 
 WORKDIR /
-RUN npm i
-RUN tsc -p ./src
+#RUN npm i
+#RUN tsc -p ./src
 
 EXPOSE 3001
 
